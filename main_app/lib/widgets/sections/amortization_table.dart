@@ -16,7 +16,7 @@ class AmortizationTable extends StatelessWidget {
     }
 
     return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(width: 400),
+      constraints: const BoxConstraints.tightFor(width: 300),
       child: Column(
         children: [
           const Text('Tabla de amortización',
@@ -25,48 +25,42 @@ class AmortizationTable extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(144, 141, 45, 196))),
           const Divider(),
-          Table(
-            children: [
-              const TableRow(children: [
-                TableCell(child: Text('Mes', style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(child: Text('Pago', style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(child: Text('Capital', style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(child: Text('Interés', style: TextStyle(fontWeight: FontWeight.bold))),
-                TableCell(child: Text('Balance', style: TextStyle(fontWeight: FontWeight.bold))),
-              ]),
-              for (var row in _amortizationTable)
-                TableRow(children: [
-                  TableCell(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(row['month'].toString()),
-                  )),
-                  TableCell(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(row['payment']?.toStringAsFixed(2) ?? '0.00'),
-                  )),
-                  TableCell(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(row['principal']?.toStringAsFixed(2) ?? '0.00'),
-                  )),
-                  TableCell(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(row['interest']?.toStringAsFixed(2) ?? '0.00'),
-                  )),
-                  TableCell(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(row['balance']?.toStringAsFixed(2) ?? '0.00'),
-                  )),
-                ]),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columns: <DataColumn>[
+                _buildDataColumn('Mes'),
+                _buildDataColumn('Pago'),
+                _buildDataColumn('Capital'),
+                _buildDataColumn('Interés'),
+                _buildDataColumn('Balance'),
+              ],
+              rows: [
+                for (var row in _amortizationTable)
+                  DataRow(cells: [
+                    DataCell(Text(row['month'].toString())),
+                    DataCell(
+                        Text(row['payment']?.toStringAsFixed(2) ?? '0.00')),
+                    DataCell(
+                        Text(row['principal']?.toStringAsFixed(2) ?? '0.00')),
+                    DataCell(
+                        Text(row['interest']?.toStringAsFixed(2) ?? '0.00')),
+                    DataCell(
+                        Text(row['balance']?.toStringAsFixed(2) ?? '0.00')),
+                  ]),
+              ],
+            ),
           )
         ],
       ),
     );
+  }
+
+  DataColumn _buildDataColumn(String label) {
+    return DataColumn(
+        label: Expanded(
+            child: Text(label,
+                style: const TextStyle(fontWeight: FontWeight.bold))));
   }
 }
 

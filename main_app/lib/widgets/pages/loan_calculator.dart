@@ -34,19 +34,21 @@ class LoanCalculatorState extends State<LoanCalculator> {
       drawer: const MyNavBar(),
       body: SingleChildScrollView(
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              LoanForm(
-                  amount: _amount,
-                  terms: _terms,
-                  interest: _interest,
-                  setLoan: _setLoan),
-              const SizedBox(height: 20),
-              LoanSummary(loan: _loan),
-              const SizedBox(height: 20),
-              AmortizationTable(loan: _loan,)
-            ],
+          child: ConstrainedBox(
+            constraints: const BoxConstraints.tightFor(width: 375),
+            child: Column(
+              children: [
+                LoanForm(
+                    amount: _amount,
+                    terms: _terms,
+                    interest: _interest,
+                    setLoan: _setLoan),
+                const SizedBox(height: 20),
+                LoanSummary(loan: _loan),
+                const SizedBox(height: 20),
+                AmortizationTable(loan: _loan,)
+              ],
+            ),
           ),
         ),
       ),

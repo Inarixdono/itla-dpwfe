@@ -15,44 +15,41 @@ class AmortizationTable extends StatelessWidget {
       return const SizedBox();
     }
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(width: 300),
-      child: Column(
-        children: [
-          const Text('Tabla de amortización',
-              style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(144, 141, 45, 196))),
-          const Divider(),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              columns: <DataColumn>[
-                _buildDataColumn('Mes'),
-                _buildDataColumn('Pago'),
-                _buildDataColumn('Capital'),
-                _buildDataColumn('Interés'),
-                _buildDataColumn('Balance'),
-              ],
-              rows: [
-                for (var row in _amortizationTable)
-                  DataRow(cells: [
-                    DataCell(Text(row['month'].toString())),
-                    DataCell(
-                        Text(row['payment']?.toStringAsFixed(2) ?? '0.00')),
-                    DataCell(
-                        Text(row['principal']?.toStringAsFixed(2) ?? '0.00')),
-                    DataCell(
-                        Text(row['interest']?.toStringAsFixed(2) ?? '0.00')),
-                    DataCell(
-                        Text(row['balance']?.toStringAsFixed(2) ?? '0.00')),
-                  ]),
-              ],
-            ),
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        const Text('Tabla de amortización',
+            style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(144, 141, 45, 196))),
+        const Divider(),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
+            columns: <DataColumn>[
+              _buildDataColumn('Mes'),
+              _buildDataColumn('Pago'),
+              _buildDataColumn('Capital'),
+              _buildDataColumn('Interés'),
+              _buildDataColumn('Balance'),
+            ],
+            rows: [
+              for (var row in _amortizationTable)
+                DataRow(cells: [
+                  DataCell(Text(row['month'].toString())),
+                  DataCell(
+                      Text(row['payment']?.toStringAsFixed(2) ?? '0.00')),
+                  DataCell(
+                      Text(row['principal']?.toStringAsFixed(2) ?? '0.00')),
+                  DataCell(
+                      Text(row['interest']?.toStringAsFixed(2) ?? '0.00')),
+                  DataCell(
+                      Text(row['balance']?.toStringAsFixed(2) ?? '0.00')),
+                ]),
+            ],
+          ),
+        )
+      ],
     );
   }
 

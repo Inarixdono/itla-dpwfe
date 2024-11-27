@@ -28,67 +28,64 @@ class LoanForm extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints.tightFor(width: 300.0),
-          child: Form(
-            child: Column(
-              children: [
-                MyTextInput(
-                    labelText: 'Monto',
-                    hintText: 'Ej: 100000',
-                    controller: _amount),
-                MyTextInput(
-                    labelText: 'Cuotas',
-                    hintText: 'Ej: 12',
-                    controller: _terms),
-                MyTextInput(
-                  labelText: 'Interés anual',
-                  hintText: 'Ej: 30',
-                  controller: _interest,
+        child: Form(
+          child: Column(
+            children: [
+              MyTextInput(
+                  labelText: 'Monto',
+                  hintText: 'Ej: 100000',
+                  controller: _amount),
+              MyTextInput(
+                  labelText: 'Cuotas',
+                  hintText: 'Ej: 12',
+                  controller: _terms),
+              MyTextInput(
+                labelText: 'Interés anual',
+                hintText: 'Ej: 30',
+                controller: _interest,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final loan = Loan(
+                    amount: double.tryParse(_amount.text) ?? 0,
+                    terms: int.tryParse(_terms.text) ?? 0,
+                    interest: double.tryParse(_interest.text) ?? 0,
+                  );
+        
+                  _setLoan(loan);
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(50),
+                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                  backgroundColor: const Color.fromARGB(120, 57, 175, 196),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
+                child: const Text('Calcular'),
+              ),
+              const SizedBox(height: 10),
+              if (_amount.text.isNotEmpty ||
+                  _terms.text.isNotEmpty ||
+                  _interest.text.isNotEmpty)
                 ElevatedButton(
                   onPressed: () {
-                    final loan = Loan(
-                      amount: double.tryParse(_amount.text) ?? 0,
-                      terms: int.tryParse(_terms.text) ?? 0,
-                      interest: double.tryParse(_interest.text) ?? 0,
-                    );
-
-                    _setLoan(loan);
+                    _amount.clear();
+                    _terms.clear();
+                    _interest.clear();
+                    _setLoan(Loan());
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                     textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                    backgroundColor: const Color.fromARGB(120, 57, 175, 196),
+                    backgroundColor: const Color.fromARGB(120, 255, 0, 0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: const Text('Calcular'),
+                  child: const Text('Limpiar'),
                 ),
-                const SizedBox(height: 10),
-                if (_amount.text.isNotEmpty ||
-                    _terms.text.isNotEmpty ||
-                    _interest.text.isNotEmpty)
-                  ElevatedButton(
-                    onPressed: () {
-                      _amount.clear();
-                      _terms.clear();
-                      _interest.clear();
-                      _setLoan(Loan());
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                      backgroundColor: const Color.fromARGB(120, 255, 0, 0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    child: const Text('Limpiar'),
-                  ),
-              ],
-            ),
+            ],
           ),
         ),
       ),
